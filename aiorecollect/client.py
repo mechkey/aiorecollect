@@ -1,4 +1,5 @@
 """Define an client to interact with ReCollect Waste."""
+
 from __future__ import annotations
 
 import logging
@@ -13,7 +14,8 @@ from aiorecollect.errors import DataError, RequestError
 
 _LOGGER = logging.getLogger(__name__)
 
-API_URL_SCAFFOLD = "https://api.recollect.net/api/places/{0}/services/{1}/events"
+API_URL_SCAFFOLD_EU = "https://api.eu.recollect.net/api/places/{0}/services/{1}/events"
+API_URL_SCAFFOLD_NA = "https://api.recollect.net/api/places/{0}/services/{1}/events"
 
 DEFAULT_TIMEOUT = 10
 
@@ -39,7 +41,12 @@ class Client:
     """Define a client."""
 
     def __init__(
-        self, place_id: str, service_id: int, *, session: ClientSession | None = None
+        self, 
+        place_id: str, 
+        service_id: int, 
+        *, 
+        session: ClientSession | None = None,
+        is_eu: bool = True
     ) -> None:
         """Initialize.
 
@@ -47,8 +54,10 @@ class Client:
             place_id: A ReCollect Waste place ID.
             service_id: A ReCollect Waste service ID.
             session: An optional aiohttp ClientSession.
+            is_eu: Whether to use the EU API endpoint (default: True).
         """
-        self._api_url = API_URL_SCAFFOLD.format(place_id, service_id)
+        api_scaffold = API_URL_SCAFFOLD_EU if is_eu else API_URL_SCAFFOLD_NA
+        self._api_url = api_scaffold.format(place_id, service_id)
         self._session = session
         self.place_id = place_id
         self.service_id = service_id
