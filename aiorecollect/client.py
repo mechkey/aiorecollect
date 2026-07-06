@@ -14,7 +14,7 @@ from aiorecollect.errors import DataError, RequestError
 
 _LOGGER = logging.getLogger(__name__)
 
-API_URL_SCAFFOLD = "https://api.recollect.net/api/places/{0}/services/{1}/events"
+API_URL_SCAFFOLD = "https://api.eu.recollect.net/api/places/{0}/services/{1}/events"
 
 DEFAULT_TIMEOUT = 10
 
